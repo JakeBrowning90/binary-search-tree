@@ -69,12 +69,47 @@ class Tree {
     }
     
     delete(value, root) {
-        // Find value in tree
-        // If no children, set parent's pointer to null
-        // If 1 child, set parent's pointer to child
-        // If 2 childen, replace node value with leftmost value in right subtree
+        /* Base Case: If the tree is empty */
+        if (root == null)
+        return root;
 
+        /* Otherwise, recur down the tree */
+        if (value < root.value)
+            root.leftNode = this.delete(value, root.leftNode);
+        else if (value > root.value)
+            root.rightNode = this.delete(value, root.rightNode);
+  
+        // if key is same as root's
+        // key, then This is the
+        // node to be deleted
+        else {
+            // node with only one child or no child
+            if (root.leftNode == null)
+                return root.rightNode;
+            else if (root.rightNode == null)
+                return root.leftNode;
+  
+            // node with two children: Get the inorder
+            // successor (smallest in the right subtree)
+            root.value = this.getMinValue(root.rightNode);
+  
+            // Delete the inorder successor
+            root.rightNode = this.delete(root.value, root.rightNode);
+        }
+  
+        return root;
     }
+
+    getMinValue(root) {
+        let minValue = root.value;
+        while (root.leftNode != null)
+        {
+            minValue = root.leftNode.value;
+            root = root.leftNode;
+        }
+        return minValue;
+    }
+ 
 
     find(value, root) {
         // Base case: if node is null if not found, root if found
@@ -108,6 +143,7 @@ const testTree = new Tree(sampleArray);
 console.log(testTree);
 // console.log(testTree.root);
 testTree.insert(100, testTree.root);
+testTree.delete(67, testTree.root);
 
 console.log(testTree.find(67, testTree.root));
 
