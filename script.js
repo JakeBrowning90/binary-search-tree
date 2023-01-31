@@ -49,9 +49,48 @@ class Tree {
         return node;
     }
 
-    //insert() {}
-    //delete() {}
-    //find() {}
+    insert(value, root) {
+        // Base case: if node is null, new node = value
+        if (root == null) {
+            root = new Node(value);
+            return root;
+        }
+        // compare value to root node
+        // if value is less than node, recursion down leftNode
+        if (value < root.value) {
+            root.leftNode = this.insert(value, root.leftNode);
+        } else if (value > root.value) {
+        // if value is greater than node, recursion down rightNode
+            root.rightNode = this.insert(value, root.rightNode);
+        }
+        return root;
+    }
+    
+    delete(value, root) {
+        // Find value in tree
+        // If no children, set parent's pointer to null
+        // If 1 child, set parent's pointer to child
+        // If 2 childen, replace node value with leftmost value in right subtree
+
+    }
+
+    find(value, root) {
+        // Base case: if node is null if not found, root if found
+        if (root == null) {
+            return null;
+        } else if (root.value == value) {
+            return root;
+        }
+        // compare value to root node
+        // if value is less than node, recursion down leftNode
+        if (value < root.value) {
+            root = this.find(value, root.leftNode);
+        } else if (value > root.value) {
+        // if value is greater than node, recursion down rightNode
+            root = this.find(value, root.rightNode);
+        }
+        return root;
+    }
     //levelOrder() {}
     //inorder() {}
     //preorder() {}
@@ -65,6 +104,10 @@ class Tree {
 let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const testTree = new Tree(sampleArray);
 console.log(testTree);
+// console.log(testTree.root);
+testTree.insert(11, testTree.root);
+
+console.log(testTree.find(10, testTree.root));
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
@@ -77,3 +120,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 
 prettyPrint(testTree.root);
+
+
+
