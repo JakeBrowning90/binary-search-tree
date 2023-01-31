@@ -54,6 +54,8 @@ class Tree {
         if (root == null) {
             root = new Node(value);
             return root;
+        } else if (value == root.value) {
+            console.log("Duplicate");
         }
         // compare value to root node
         // if value is less than node, recursion down leftNode
@@ -105,9 +107,9 @@ let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const testTree = new Tree(sampleArray);
 console.log(testTree);
 // console.log(testTree.root);
-testTree.insert(11, testTree.root);
+testTree.insert(100, testTree.root);
 
-console.log(testTree.find(10, testTree.root));
+console.log(testTree.find(67, testTree.root));
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
