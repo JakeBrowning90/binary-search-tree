@@ -69,37 +69,32 @@ class Tree {
     }
     
     delete(value, root) {
-        /* Base Case: If the tree is empty */
-        if (root == null)
-        return root;
-
-        /* Otherwise, recur down the tree */
-        if (value < root.value)
+        // Base case: return null if value is not found
+        if (root == null) {
+            return root;
+        }
+        // Recursion until value is found
+        if (value < root.value) {
             root.leftNode = this.delete(value, root.leftNode);
-        else if (value > root.value)
+        } else if (value > root.value) {
             root.rightNode = this.delete(value, root.rightNode);
-  
-        // if key is same as root's
-        // key, then This is the
-        // node to be deleted
-        else {
-            // node with only one child or no child
-            if (root.leftNode == null)
+        // Else value matches root, then deletion depends on children
+        } else {
+            // If Node has 0 or 1 child, sets the parent's node to null or that child 
+            if (root.leftNode == null) {
                 return root.rightNode;
-            else if (root.rightNode == null)
+            } else if (root.rightNode == null) {
                 return root.leftNode;
-  
-            // node with two children: Get the inorder
-            // successor (smallest in the right subtree)
+            }
+            // If node has 2 children, replace its value with the next highest descendant (leftmost in right subtree)
             root.value = this.getMinValue(root.rightNode);
-  
-            // Delete the inorder successor
+            // Delete next highest descendent whose value has been copied
             root.rightNode = this.delete(root.value, root.rightNode);
         }
-  
+
         return root;
     }
-
+    // Gets the leftmost value in a tree, to replace a deleted node with 2 children
     getMinValue(root) {
         let minValue = root.value;
         while (root.leftNode != null)
@@ -112,22 +107,22 @@ class Tree {
  
 
     find(value, root) {
-        // Base case: if node is null if not found, root if found
+        // Base case: return null if value is not found, or return node if found
         if (root == null) {
             return null;
         } else if (root.value == value) {
             return root;
         }
-        // compare value to root node
-        // if value is less than node, recursion down leftNode
+        // If value is less than node, recursion down leftNode
         if (value < root.value) {
             root = this.find(value, root.leftNode);
         } else if (value > root.value) {
-        // if value is greater than node, recursion down rightNode
+        // If value is greater than node, recursion down rightNode
             root = this.find(value, root.rightNode);
         }
         return root;
     }
+
     //levelOrder() {}
     //inorder() {}
     //preorder() {}
