@@ -123,9 +123,69 @@ class Tree {
         return root;
     }
 
-    //levelOrder() {}
-    //inorder() {}
-    //preorder() {}
+    levelOrder(root, param) {
+        // Return if root is empty
+        if (root == null) {
+        return null;
+        }
+        let discoveredNodes = [];
+        let returnedNodes = [];
+        // Start queue with root node
+        discoveredNodes.push(root);
+        // Iterate while the queue isn't empty
+        while (discoveredNodes.length > 0) {
+            // Set the first node in the queue as current
+            let current = discoveredNodes[0];
+            // Add the current node's children to the queue
+            if (current.leftNode) {
+                discoveredNodes.push(current.leftNode)
+            }
+            if (current.rightNode) {
+                discoveredNodes.push(current.rightNode)
+            }
+            // Call the passed function with the current node as parameter
+            if (param != undefined) {
+                param(current);
+            } else {
+            // Add the current node's value to array for return
+                returnedNodes.push(current.value);
+            }
+            // Remove the current node, move down the queue
+            discoveredNodes.shift();
+        }
+        // Return the level-ordered array if there is one (no param)
+        if (returnedNodes.length != 0) {
+            return returnedNodes;
+        } else {
+            return;
+        }
+    }
+
+    inorder(root, param) {
+       
+    }
+
+    preorder(root) {
+        let preorderedArray = [];
+        preorderedArray = (this.preorderTraverse(root, preorderedArray));
+        return preorderedArray;
+    }
+
+    preorderTraverse(root, array) {
+        if (root == null) {
+            return null;
+        } else {
+            array.push(root.value);
+            console.log(array);
+            if (root.leftNode) {
+                this.preorder(root.leftNode, array);
+            }
+            if (root.rightNode) {
+                this.preorder(root.rightNode, array);
+            }
+            return array;
+        }
+    }
     //postorder() {}
     //height() {}
     //depth() {}
@@ -140,7 +200,11 @@ console.log(testTree);
 testTree.insert(100, testTree.root);
 testTree.delete(67, testTree.root);
 
-console.log(testTree.find(67, testTree.root));
+console.log(testTree.find(9, testTree.root));
+
+// console.log(testTree.levelOrder(testTree.root));
+
+console.log(testTree.preorder(testTree.root));
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
@@ -154,5 +218,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 prettyPrint(testTree.root);
 
+// Sample parameter function for levelOrder()
+function addTen(node) {
+    console.log(node.value + 10);
+}
 
 
