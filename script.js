@@ -105,20 +105,25 @@ class Tree {
         return minValue;
     }
  
+    find(value) {
+        let root = this.root;
+        root = this.findTraverse(value, root);
+        return root;
+    }
 
-    find(value, root) {
-        // Base case: return null if value is not found, or return node if found
-        if (root == null) {
+    findTraverse(value, root) {
+         // Base case: return null if value is not found, or return node if found
+         if (root == null) {
             return null;
         } else if (root.value == value) {
             return root;
         }
         // If value is less than node, recursion down leftNode
         if (value < root.value) {
-            root = this.find(value, root.leftNode);
+            root = this.findTraverse(value, root.leftNode);
         } else if (value > root.value) {
         // If value is greater than node, recursion down rightNode
-            root = this.find(value, root.rightNode);
+            root = this.findTraverse(value, root.rightNode);
         }
         return root;
     }
@@ -308,8 +313,10 @@ console.log(testTree.preorder());
 console.log(testTree.postorder());
 
 console.log(testTree.height(testTree.root));
-
-let heightSample = testTree.find(70, testTree.root);
+console.log(testTree.find(25));
+console.log(testTree.find(66));
+console.log(testTree.find(101));
+let heightSample = testTree.find(70);
 console.log(heightSample);
 console.log(testTree.height(heightSample));
 
