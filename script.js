@@ -331,6 +331,7 @@ console.log(testTree.height(testTree.root));
 console.log(testTree.find(25));
 console.log(testTree.find(66));
 console.log(testTree.find(101));
+
 let heightSample = testTree.find(70);
 console.log(heightSample);
 console.log(testTree.height(heightSample));
@@ -347,7 +348,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 prettyPrint(testTree.root);
 
-// Sample parameter function for levelOrder()
+// Sample callback function for levelOrder(), inorder(), preorder(), and postorder()
 function addTen(node) {
     console.log(node.value + 10);
 }
