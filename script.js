@@ -49,7 +49,14 @@ class Tree {
         return node;
     }
 
-    insert(value, root) {
+    insert(value) {
+        // Start recursive search at tree's root
+        let root = this.root;
+        root = this.insertTraverse(value, root);
+        return root;
+    }
+
+    insertTraverse(value, root) {
         // Base case: if node is null, new node = value
         if (root == null) {
             root = new Node(value);
@@ -60,24 +67,31 @@ class Tree {
         // compare value to root node
         // if value is less than node, recursion down leftNode
         if (value < root.value) {
-            root.leftNode = this.insert(value, root.leftNode);
+            root.leftNode = this.insertTraverse(value, root.leftNode);
         } else if (value > root.value) {
         // if value is greater than node, recursion down rightNode
-            root.rightNode = this.insert(value, root.rightNode);
+            root.rightNode = this.insertTraverse(value, root.rightNode);
         }
         return root;
     }
     
-    delete(value, root) {
+    delete(value) {
+        // Start recursive search at tree's root
+        let root = this.root;
+        root = this.deleteTraverse(value, root);
+        return root;
+    }
+
+    deleteTraverse(value, root) {
         // Base case: return null if value is not found
         if (root == null) {
             return root;
         }
         // Recursion until value is found
         if (value < root.value) {
-            root.leftNode = this.delete(value, root.leftNode);
+            root.leftNode = this.deleteTraverse(value, root.leftNode);
         } else if (value > root.value) {
-            root.rightNode = this.delete(value, root.rightNode);
+            root.rightNode = this.deleteTraverse(value, root.rightNode);
         // Else value matches root, then deletion depends on children
         } else {
             // If Node has 0 or 1 child, sets the parent's node to null or that child 
@@ -89,11 +103,11 @@ class Tree {
             // If node has 2 children, replace its value with the next highest descendant (leftmost in right subtree)
             root.value = this.getMinValue(root.rightNode);
             // Delete next highest descendent whose value has been copied
-            root.rightNode = this.delete(root.value, root.rightNode);
+            root.rightNode = this.deleteTraverse(root.value, root.rightNode);
         }
-
         return root;
     }
+
     // Gets the leftmost value in a tree, to replace a deleted node with 2 children
     getMinValue(root) {
         let minValue = root.value;
@@ -106,6 +120,7 @@ class Tree {
     }
  
     find(value) {
+        // Start recursive search at tree's root
         let root = this.root;
         root = this.findTraverse(value, root);
         return root;
@@ -297,8 +312,8 @@ let sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
 const testTree = new Tree(sampleArray);
 console.log(testTree);
 // console.log(testTree.root);
-testTree.insert(100, testTree.root);
-//testTree.delete(67, testTree.root);
+testTree.insert(100);
+testTree.delete(90);
 
 // Test levelOrder()
 console.log(testTree.levelOrder());
