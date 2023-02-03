@@ -264,14 +264,27 @@ class Tree {
             return array;
         }
     }
-    //height() {}
+
+    height(root) {
+        // Base case: undo last count if root is null (edges# is -1 nodes#)
+        if (root == null) {
+            return -1;
+        } else {
+            // Recurse down branches
+            let leftBranch = this.height(root.leftNode);
+            let rightBranch = this.height(root.rightNode);
+            // Return +1 for greater branch
+            return Math.max(leftBranch, rightBranch) + 1;
+        }
+    }
+
     //depth() {}
     //isBalanced() {}
     //rebalance() {}
 }
 
-let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
+//let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+let sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
 const testTree = new Tree(sampleArray);
 console.log(testTree);
 // console.log(testTree.root);
@@ -289,6 +302,12 @@ console.log(testTree.preorder(testTree.root));
 
 // Test postorder()
 console.log(testTree.postorder(testTree.root));
+
+console.log(testTree.height(testTree.root));
+
+let heightSample = testTree.find(70, testTree.root);
+console.log(heightSample);
+console.log(testTree.height(heightSample));
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
