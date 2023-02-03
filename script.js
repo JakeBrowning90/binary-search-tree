@@ -123,10 +123,11 @@ class Tree {
         return root;
     }
 
-    levelOrder(root, callback) {
+    levelOrder(callback) {
+        let root = this.root;
         // Return if root is empty
         if (root == null) {
-        return null;
+            return null;
         }
         let discoveredNodes = [];
         let returnedNodes = [];
@@ -161,7 +162,8 @@ class Tree {
         }
     }
 
-    inorder(root, callback) {
+    inorder(callback) {
+        let root = this.root;
         let inorderArray = [];
         // Pass the root, empty array, and callback into a recursive function
         inorderArray = (this.inorderTraverse(root, inorderArray, callback));
@@ -196,7 +198,8 @@ class Tree {
         }
     }
 
-    preorder(root, callback) {
+    preorder(callback) {
+        let root = this.root;
         let preorderedArray = [];
         // Pass the root, empty array, and callback into a recursive function
         preorderedArray = (this.preorderTraverse(root, preorderedArray, callback));
@@ -230,7 +233,8 @@ class Tree {
         }
     }
 
-    postorder(root, callback) {
+    postorder(callback) {
+        let root = this.root;
         let postorderArray = [];
         // Pass the root, empty array, and callback into a recursive function
         postorderArray = (this.postorderTraverse(root, postorderArray, callback));
@@ -292,16 +296,16 @@ testTree.insert(100, testTree.root);
 //testTree.delete(67, testTree.root);
 
 // Test levelOrder()
-console.log(testTree.levelOrder(testTree.root));
+console.log(testTree.levelOrder());
 
 // Test inorder()
-console.log(testTree.inorder(testTree.root));
+console.log(testTree.inorder());
 
 // Test preorder()
-console.log(testTree.preorder(testTree.root));
+console.log(testTree.preorder());
 
 // Test postorder()
-console.log(testTree.postorder(testTree.root));
+console.log(testTree.postorder());
 
 console.log(testTree.height(testTree.root));
 
