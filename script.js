@@ -307,8 +307,30 @@ class Tree {
         return this.height(this.root) - this.height(target);
     }
 
-    //isBalanced() {}
-    //rebalance() {}
+    isBalanced(root = this.root) {
+        // Base case: node had no child, this branch is done.
+        if (root == null) {
+            return true;
+        }
+        // Recurse for height of each branch
+        let leftHeight = this.height(root.leftNode);
+        let rightHeight = this.height(root.rightNode);
+        // Tree is balanced if absolute value of all nodes' branch height diff is <= 1
+        if (Math.abs(leftHeight - rightHeight) <= 1 &&
+                this.isBalanced(root.leftNode) == true &&
+                this.isBalanced(root.rightNode) == true) {
+            return true;
+        }
+        return false;
+    }
+
+    rebalance() {
+        // Get all node values from current tree
+        let newArray = this.levelOrder();
+        // Set new tree with collected values 
+        this.root = this.buildTree(newArray)
+        return;
+    }
 }
 
 //let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -332,12 +354,11 @@ console.log(testTree.preorder());
 console.log(testTree.postorder());
 
 console.log(testTree.height(testTree.root));
-console.log(testTree.find(25));
-console.log(testTree.find(66));
-console.log(testTree.find(101));
+// console.log(testTree.find(25));
+// console.log(testTree.find(66));
+// console.log(testTree.find(101));
 
 let heightSample = testTree.find(70);
-console.log(heightSample);
 console.log(testTree.height(heightSample));
 console.log(testTree.depth(heightSample));
 
@@ -358,4 +379,12 @@ function addTen(node) {
     console.log(node.value + 10);
 }
 
-
+console.log(testTree.isBalanced());
+testTree.insert(110);
+testTree.insert(120);
+testTree.insert(130);
+testTree.insert(140);
+console.log(testTree.isBalanced());
+prettyPrint(testTree.root);
+testTree.rebalance();
+prettyPrint(testTree.root);
