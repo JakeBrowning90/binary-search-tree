@@ -49,14 +49,7 @@ class Tree {
         return node;
     }
 
-    insert(value) {
-        // Start recursive search at tree's root
-        let root = this.root;
-        root = this.insertTraverse(value, root);
-        return root;
-    }
-
-    insertTraverse(value, root) {
+    insert(value, root = this.root) {
         // Base case: if node is null, new node = value
         if (root == null) {
             root = new Node(value);
@@ -67,31 +60,24 @@ class Tree {
         // compare value to root node
         // if value is less than node, recursion down leftNode
         if (value < root.value) {
-            root.leftNode = this.insertTraverse(value, root.leftNode);
+            root.leftNode = this.insert(value, root.leftNode);
         } else if (value > root.value) {
         // if value is greater than node, recursion down rightNode
-            root.rightNode = this.insertTraverse(value, root.rightNode);
+            root.rightNode = this.insert(value, root.rightNode);
         }
         return root;
     }
     
-    delete(value) {
-        // Start recursive search at tree's root
-        let root = this.root;
-        root = this.deleteTraverse(value, root);
-        return root;
-    }
-
-    deleteTraverse(value, root) {
+    delete(value, root = this.root) {
         // Base case: return null if value is not found
         if (root == null) {
             return root;
         }
         // Recursion until value is found
         if (value < root.value) {
-            root.leftNode = this.deleteTraverse(value, root.leftNode);
+            root.leftNode = this.delete(value, root.leftNode);
         } else if (value > root.value) {
-            root.rightNode = this.deleteTraverse(value, root.rightNode);
+            root.rightNode = this.delete(value, root.rightNode);
         // Else value matches root, then deletion depends on children
         } else {
             // If Node has 0 or 1 child, sets the parent's node to null or that child 
@@ -103,13 +89,13 @@ class Tree {
             // If node has 2 children, replace its value with the next highest descendant (leftmost in right subtree)
             root.value = this.getMinValue(root.rightNode);
             // Delete next highest descendent whose value has been copied
-            root.rightNode = this.deleteTraverse(root.value, root.rightNode);
+            root.rightNode = this.delete(root.value, root.rightNode);
         }
         return root;
     }
 
-    // Gets the leftmost value in a tree, to replace a deleted node with 2 children
     getMinValue(root) {
+         // Gets the leftmost value in a tree, to replace a deleted node with 2 children
         let minValue = root.value;
         while (root.leftNode != null)
         {
@@ -118,15 +104,8 @@ class Tree {
         }
         return minValue;
     }
- 
-    find(value) {
-        // Start recursive search at tree's root
-        let root = this.root;
-        root = this.findTraverse(value, root);
-        return root;
-    }
 
-    findTraverse(value, root) {
+    find(value, root = this.root) {
          // Base case: return null if value is not found, or return node if found
          if (root == null) {
             return null;
@@ -135,10 +114,10 @@ class Tree {
         }
         // If value is less than node, recursion down leftNode
         if (value < root.value) {
-            root = this.findTraverse(value, root.leftNode);
+            root = this.find(value, root.leftNode);
         } else if (value > root.value) {
         // If value is greater than node, recursion down rightNode
-            root = this.findTraverse(value, root.rightNode);
+            root = this.find(value, root.rightNode);
         }
         return root;
     }
@@ -182,27 +161,14 @@ class Tree {
         }
     }
 
-    inorder(callback) {
-        let root = this.root;
-        let inorderArray = [];
-        // Pass the root, empty array, and callback into a recursive function
-        inorderArray = (this.inorderTraverse(root, inorderArray, callback));
-        // Return array of values if no callback
-        if (callback != null) {
-            return "Callback complete";
-        } else {
-            return inorderArray;
-        }
-    }
-
-    inorderTraverse(root, array, callback) {
+    inorder(callback, root = this.root, array = []) {
         //Base case
         if (root == null) {
             return null;
         } else {
             // Recurse down left subtree
             if (root.leftNode) {
-                this.inorderTraverse(root.leftNode, array, callback);
+                this.inorder(callback, root.leftNode, array);
             }
             //Pass the node into the callback, otherwise add value to array
             if (callback != undefined) {
@@ -212,26 +178,18 @@ class Tree {
             }
              // Recurse down right subtree
             if (root.rightNode) {
-                this.inorderTraverse(root.rightNode, array, callback);
+                this.inorder(callback, root.rightNode, array);
             }
-            return array;
+            // Return array of values if no callback
+            if (callback != undefined) {
+                return "Callback complete";
+            } else {
+                return array;
+            }
         }
     }
 
-    preorder(callback) {
-        let root = this.root;
-        let preorderedArray = [];
-        // Pass the root, empty array, and callback into a recursive function
-        preorderedArray = (this.preorderTraverse(root, preorderedArray, callback));
-        // Return array of values if no callback
-        if (callback != null) {
-            return "Callback complete";
-        } else {
-            return preorderedArray;
-        }
-    }
-
-    preorderTraverse(root, array, callback) {
+    preorder(callback, root = this.root, array = []) {
         //Base case
         if (root == null) {
             return null;
@@ -244,40 +202,32 @@ class Tree {
             }
             // Recurse down left and right subtrees
             if (root.leftNode) {
-                this.preorderTraverse(root.leftNode, array, callback);
+                this.preorder(callback, root.leftNode, array);
             }
             if (root.rightNode) {
-                this.preorderTraverse(root.rightNode, array, callback);
+                this.preorder(callback, root.rightNode, array);
             }
-            return array;
+
+            if (callback != undefined) {
+                return "Callback complete";
+            } else {
+                return array;
+            }
         }
     }
 
-    postorder(callback) {
-        let root = this.root;
-        let postorderArray = [];
-        // Pass the root, empty array, and callback into a recursive function
-        postorderArray = (this.postorderTraverse(root, postorderArray, callback));
-        // Return array of values if no callback
-        if (callback != null) {
-            return "Callback complete";
-        } else {
-            return postorderArray;
-        }
-    }
-
-    postorderTraverse(root, array, callback) {
+    postorder(callback, root = this.root, array = []) {
         //Base case
         if (root == null) {
             return null;
         } else {
             // Recurse down left subtree
             if (root.leftNode) {
-                this.postorderTraverse(root.leftNode, array, callback);
+                this.postorder(callback, root.leftNode, array);
             }
              // Recurse down right subtree
             if (root.rightNode) {
-                this.postorderTraverse(root.rightNode, array, callback);
+                this.postorder(callback, root.rightNode, array);
             }
             //Pass the node into the callback, otherwise add value to array
             if (callback != undefined) {
@@ -285,7 +235,11 @@ class Tree {
             } else {
                 array.push(root.value);
             }
-            return array;
+            if (callback != undefined) {
+                return "Callback complete";
+            } else {
+                return array;
+            }
         }
     }
 
@@ -333,35 +287,6 @@ class Tree {
     }
 }
 
-//let sampleArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
-const testTree = new Tree(sampleArray);
-console.log(testTree);
-// console.log(testTree.root);
-testTree.insert(100);
-testTree.delete(90);
-
-// Test levelOrder()
-console.log(testTree.levelOrder());
-
-// Test inorder()
-console.log(testTree.inorder());
-
-// Test preorder()
-console.log(testTree.preorder());
-
-// Test postorder()
-console.log(testTree.postorder());
-
-console.log(testTree.height(testTree.root));
-// console.log(testTree.find(25));
-// console.log(testTree.find(66));
-// console.log(testTree.find(101));
-
-let heightSample = testTree.find(70);
-console.log(testTree.height(heightSample));
-console.log(testTree.depth(heightSample));
-
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
       prettyPrint(node.rightNode, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -372,6 +297,40 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
   }
 
+let sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
+const testTree = new Tree(sampleArray);
+console.log(testTree);
+testTree.insert(100);
+testTree.delete(90);
+
+// Test levelOrder()
+// console.log(testTree.levelOrder());
+// Test inorder()
+//console.log(testTree.inorder());
+// Test preorder()
+console.log(testTree.preorder());
+// Test postorder()
+console.log(testTree.postorder());
+
+console.log(testTree.height(testTree.root));
+console.log(testTree.find(25));
+console.log(testTree.find(66));
+console.log(testTree.find(101));
+
+let heightSample = testTree.find(70);
+console.log(testTree.height(heightSample));
+console.log(testTree.depth(heightSample));
+
+// const prettyPrint = (node, prefix = '', isLeft = true) => {
+//     if (node.rightNode !== null) {
+//       prettyPrint(node.rightNode, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+//     }
+//     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
+//     if (node.leftNode !== null) {
+//       prettyPrint(node.leftNode, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+//     }
+//   }
+
 prettyPrint(testTree.root);
 
 // Sample callback function for levelOrder(), inorder(), preorder(), and postorder()
@@ -379,12 +338,12 @@ function addTen(node) {
     console.log(node.value + 10);
 }
 
-console.log(testTree.isBalanced());
-testTree.insert(110);
-testTree.insert(120);
-testTree.insert(130);
-testTree.insert(140);
-console.log(testTree.isBalanced());
-prettyPrint(testTree.root);
-testTree.rebalance();
-prettyPrint(testTree.root);
+// console.log(testTree.isBalanced());
+// testTree.insert(110);
+// testTree.insert(120);
+// testTree.insert(130);
+// testTree.insert(140);
+// console.log(testTree.isBalanced());
+// prettyPrint(testTree.root);
+// testTree.rebalance();
+// prettyPrint(testTree.root);
