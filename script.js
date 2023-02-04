@@ -302,7 +302,11 @@ class Tree {
         }
     }
 
-    //depth() {}
+    depth(target) {
+        // Target depth = root's height - target's height
+        return this.height(this.root) - this.height(target);
+    }
+
     //isBalanced() {}
     //rebalance() {}
 }
@@ -335,6 +339,7 @@ console.log(testTree.find(101));
 let heightSample = testTree.find(70);
 console.log(heightSample);
 console.log(testTree.height(heightSample));
+console.log(testTree.depth(heightSample));
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
