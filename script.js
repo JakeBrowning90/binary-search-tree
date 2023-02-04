@@ -287,6 +287,7 @@ class Tree {
     }
 }
 
+// Shortcut to visualise tree
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.rightNode !== null) {
       prettyPrint(node.rightNode, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -298,52 +299,51 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 
 let sampleArray = [4, 10, 12, 15, 18, 22, 24 , 25, 31, 35, 44, 50, 66, 70, 90];
+// Test buildTree() and associated functions
 const testTree = new Tree(sampleArray);
 console.log(testTree);
+// Test insert()
 testTree.insert(100);
+// Test delete()
 testTree.delete(90);
-
-// Test levelOrder()
-// console.log(testTree.levelOrder());
-// Test inorder()
-//console.log(testTree.inorder());
-// Test preorder()
-console.log(testTree.preorder());
-// Test postorder()
-console.log(testTree.postorder());
-
-console.log(testTree.height(testTree.root));
+// Test find()
 console.log(testTree.find(25));
 console.log(testTree.find(66));
 console.log(testTree.find(101));
 
+// Test levelOrder()
+console.log(testTree.levelOrder());
+// Test inorder()
+console.log(testTree.inorder());
+// Test preorder()
+console.log(testTree.preorder());
+// Test postorder()
+console.log(testTree.postorder());
+// Test height()
+console.log(testTree.height(testTree.root));
 let heightSample = testTree.find(70);
 console.log(testTree.height(heightSample));
+// Test depth()
 console.log(testTree.depth(heightSample));
 
-// const prettyPrint = (node, prefix = '', isLeft = true) => {
-//     if (node.rightNode !== null) {
-//       prettyPrint(node.rightNode, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-//     }
-//     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
-//     if (node.leftNode !== null) {
-//       prettyPrint(node.leftNode, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-//     }
-//   }
-
+// Test isBalanced() = true
 prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
+
+// Test isBalanced() = false
+testTree.insert(110);
+testTree.insert(120);
+testTree.insert(130);
+testTree.insert(140);
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
+
+//Test rebalance
+testTree.rebalance();
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
 
 // Sample callback function for levelOrder(), inorder(), preorder(), and postorder()
 function addTen(node) {
     console.log(node.value + 10);
 }
-
-// console.log(testTree.isBalanced());
-// testTree.insert(110);
-// testTree.insert(120);
-// testTree.insert(130);
-// testTree.insert(140);
-// console.log(testTree.isBalanced());
-// prettyPrint(testTree.root);
-// testTree.rebalance();
-// prettyPrint(testTree.root);
